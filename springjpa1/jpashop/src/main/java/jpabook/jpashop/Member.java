@@ -16,4 +16,5 @@ public class Member {
     @GeneratedValue//자동생성
     private Long id;
     private String userName;
+    //
 }
