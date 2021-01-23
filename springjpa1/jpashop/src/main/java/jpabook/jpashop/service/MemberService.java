@@ -62,7 +62,7 @@ public class MemberService {
         //실무에서는 검증 로직이 있어도 멀티 쓰레드 상황을 고려해서
         // 회원 테이블의 회원명 컬럼에 유니크 제 약 조건을 추가하는 것이 안전하다.
         List<Member> findMembers = memberRepository.findByName(member.getName());
-        if(!findMembers.isEmpty()){
+        if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }

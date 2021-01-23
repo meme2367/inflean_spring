@@ -7,7 +7,7 @@ spring: #테스트시 사용할 설정 yml #테스트는 h2 메모리디비 모�
 
 #  jpa: #띄어쓰기 2칸
 #    hibernate: #띄어쓰기 4칸
-#      ddl-auto: create #스프링은 기본 create-drop(애플리케이션 종료시점에 테이블 지워서 자원정리)  #자동으로 탭 생성 #어플리케이션 실행 시점에 테이블 지우고 다시 생성
+#      ddl-auto: create #스프링은 기본 create-drop(애플리케이션 종료시점에 테이블 지워서 자원정)  #자동으로 탭 생성 #어플리케이션 실행 시점에 테이블 지우고 다시 생성
 #    properties: #띄어쓰기 4칸
 #      hibernate: #띄어쓰기 6칸
 #        show_sql: true #띄어쓰기 8칸
