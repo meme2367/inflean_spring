@@ -24,16 +24,24 @@ public class MemberServiceTest {
     // 영속성 컨텍스트가 flush를 안해서.
     // @Rollback(false) : 테스트끝난 후 트랜잭션은 롤백해버려 데이터가 없을테니 롤백하지못하게 함
     @Test
-    public void 회원가입() throws Exception{
+    public void 회원가입() throws Exception {
         //given 이런게 주어졌어
         Member member = new Member();
-        member.setName("kim");
+        member.setName("myeongdayeon");
+        member.setPassword("yesyes");
+        member.setUsername("myeong");
+        member.setEmail("meme91322367@gmail.com");
 
         //when 이걸 실행하면
         Long saveId = memberService.join(member);
 
         //then 결과가 이게 나와야되
         assertEquals(member,memberRepository.findOne(saveId));
+    }
+
+    @Test
+    public void 로그인() throws Exception {
+
     }
 
     @Test(expected = IllegalStateException.class)

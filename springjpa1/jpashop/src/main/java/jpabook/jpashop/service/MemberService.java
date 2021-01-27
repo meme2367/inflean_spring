@@ -1,6 +1,7 @@
 package jpabook.jpashop.service;
 
 import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.domain.Salt;
 import jpabook.jpashop.repository.MemberRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -44,8 +45,10 @@ public class MemberService {
     */
     private final MemberRepository memberRepository;
 
+    private final SaltUtil saltUtil;
 
     //회원 가입
+    /*
     @Transactional//읽기아님(우선권가진 트랜잭션)
     public Long join(Member member) {
         //중복회원있는지 체크
@@ -54,6 +57,33 @@ public class MemberService {
         memberRepository.save(member);
         return member.getId();//멤버 반환 x : "쿼맨드와 쿼리를 분리해라"
     }
+    */
+    @Transactional//읽기아님(우선권가진 트랜잭션)
+    public Long join(Member member) {
+        //중복회원있는지 체크
+        validateDuplicateMember(member);
+        String password = member.getPassword();
+        String salt = saltUtil.genSalt();
+        member.setSalt(new Salt(salt));
+        member.setPassword(saltUtil.encodePassword(salt,password));
+        //영속성 컨텍스트에 올리면 키값이 pk(id)로 들어가있어서 id꺼낼수 있음 (db에 들어가지않아도)
+        memberRepository.save(member);
+        return member.getId();//멤버 반환 x : "쿼맨드와 쿼리를 분리해라"
+    }
+
+    @Transactional
+    public Member loginUser(String id, String password) {
+        Member member = validateExistMember(id);
+        String salt = member.getSalt().getSalt();
+        password = saltUtil.encodePassword(salt,password);
+        if(!member.getPassword().equals(password)) {
+            throw new IllegalStateException("비밀번호가 틀립니다.");
+        }
+        return member;
+    }
+
+
+
 
     private void validateDuplicateMember(Member member) {
         // 중복회원
@@ -65,6 +95,14 @@ public class MemberService {
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
+    }
+
+    private Member validateExistMember(String id) {
+        Member findMember = memberRepository.findByUserName(id);
+        if(findMember == null) {
+            throw new IllegalStateException("회원이 존재하지 않습니다.");
+        }
+        return findMember;
     }
 
     //회원 전체 조회

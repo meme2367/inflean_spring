@@ -41,4 +41,8 @@ public class MemberRepository {
                 .setParameter("name",name)
                 .getResultList();
     }
+
+    public Member findByUserName(String username){
+        return em.find(Member.class,username);
+    }
 }
