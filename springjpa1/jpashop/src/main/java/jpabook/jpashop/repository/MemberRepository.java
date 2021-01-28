@@ -42,7 +42,12 @@ public class MemberRepository {
                 .getResultList();
     }
 
-    public Member findByUserName(String username){
-        return em.find(Member.class,username);
+    public Member findByUsername(String username) {
+//        return em.createQuery(
+            return em.createQuery("select m from Member m where m.username = :username",Member.class)
+                    .setParameter("username",username)
+                    .getSingleResult();
+        //return em.find(Member.class,username);
     }
+
 }

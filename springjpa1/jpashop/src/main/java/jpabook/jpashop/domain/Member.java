@@ -24,6 +24,8 @@ public class Member {
     @NotNull
     private String password;
 
+    @Column(unique = true)
+    @NotNull
     private String username;
 
     private String name;

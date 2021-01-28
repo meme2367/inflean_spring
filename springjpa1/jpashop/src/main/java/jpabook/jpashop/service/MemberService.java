@@ -72,8 +72,9 @@ public class MemberService {
     }
 
     @Transactional
-    public Member loginUser(String id, String password) {
-        Member member = validateExistMember(id);
+    public Member login(String username, String password) {
+
+        Member member = validateExistMember(username);
         String salt = member.getSalt().getSalt();
         password = saltUtil.encodePassword(salt,password);
         if(!member.getPassword().equals(password)) {
@@ -97,8 +98,9 @@ public class MemberService {
         }
     }
 
-    private Member validateExistMember(String id) {
-        Member findMember = memberRepository.findByUserName(id);
+
+    public Member validateExistMember(String username) {
+        Member findMember = memberRepository.findByUsername(username);
         if(findMember == null) {
             throw new IllegalStateException("회원이 존재하지 않습니다.");
         }

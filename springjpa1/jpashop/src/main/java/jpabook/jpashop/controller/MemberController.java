@@ -2,6 +2,7 @@ package jpabook.jpashop.controller;
 
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Response;
+import jpabook.jpashop.domain.request.RequestLoginUser;
 import jpabook.jpashop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public Response signUpUser(@RequestBody Member member) {
+    public Response join(@RequestBody Member member) {
 
         Response response = new Response();
 
@@ -31,8 +32,26 @@ public class MemberController {
         return response;
     }
 
+    @PostMapping("/login")
+    public Response login(@RequestBody RequestLoginUser requestLoginUer) {
+        Response response = new Response();
 
-    @GetMapping("/Response")
+        try {
+            Member member = memberService.login(requestLoginUer.getUsername(),requestLoginUer.getPassword());
+            response.setStatusCode(200);
+            response.setMessage("로그인을 성공적으로 완료했습니다.");
+            response.setData(member);
+        } catch (Exception e) {
+            response.setStatusCode(400);
+            response.setMessage("로그인을 하는 도중 오류가 발생했습니다.");
+            response.setData(e.toString());
+        }
+        return response;
+
+    }
+
+
+    @GetMapping("/test")
     public Response getJsonResponse(
             @RequestParam(value = "msg") String msg) {
 
@@ -44,8 +63,4 @@ public class MemberController {
         return response;
     }
 
-    @GetMapping
-    public String get() {
-        return "ss";
-    }
 }
