@@ -17,15 +17,18 @@ public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
 
+    @Override
     @Transactional
     public void saveItem(Item item) {
         itemRepository.save(item);
     }
 
+    @Override
     public List<Item> findItems() {
         return itemRepository.findAll();
     }
 
+    @Override
     public Item findOne(Long itemId) {
         return itemRepository.findOne(itemId);
     }

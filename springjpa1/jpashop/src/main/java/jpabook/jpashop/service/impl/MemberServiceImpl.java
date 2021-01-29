@@ -60,6 +60,7 @@ public class MemberServiceImpl implements MemberService {
     }
     */
 
+    @Override
     @Transactional//읽기아님(우선권가진 트랜잭션)
     public Long join(Member member) {
         //중복회원있는지 체크
@@ -73,6 +74,7 @@ public class MemberServiceImpl implements MemberService {
         return member.getId();//멤버 반환 x : "쿼맨드와 쿼리를 분리해라"
     }
 
+    @Override
     @Transactional
     public Member login(String username, String password) {
 
@@ -84,8 +86,6 @@ public class MemberServiceImpl implements MemberService {
         }
         return member;
     }
-
-
 
 
     private void validateDuplicateMember(Member member) {
@@ -110,11 +110,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     //회원 전체 조회
+    @Override
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }
 
-
+    @Override
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
