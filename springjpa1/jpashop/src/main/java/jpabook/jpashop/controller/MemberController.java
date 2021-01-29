@@ -1,6 +1,6 @@
 package jpabook.jpashop.controller;
 
-import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.domain.member.Member;
 import jpabook.jpashop.domain.Response;
 import jpabook.jpashop.domain.request.RequestLoginUser;
 import jpabook.jpashop.service.MemberService;
@@ -48,19 +48,6 @@ public class MemberController {
         }
         return response;
 
-    }
-
-
-    @GetMapping("/test")
-    public Response getJsonResponse(
-            @RequestParam(value = "msg") String msg) {
-
-        Response response  = new Response();
-        response.setStatusCode(400);
-        response.setMessage(msg);
-
-
-        return response;
     }
 
 }

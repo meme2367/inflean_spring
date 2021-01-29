@@ -1,6 +1,9 @@
-package jpabook.jpashop.domain;
+package jpabook.jpashop.domain.member;
 
 import com.sun.istack.NotNull;
+import jpabook.jpashop.domain.Address;
+import jpabook.jpashop.domain.order.Order;
+import jpabook.jpashop.domain.Salt;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,7 +28,6 @@ public class Member {
     private String password;
 
     @Column(unique = true)
-    @NotNull
     private String username;
 
     private String name;

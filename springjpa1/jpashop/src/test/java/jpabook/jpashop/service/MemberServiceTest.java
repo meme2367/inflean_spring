@@ -1,12 +1,11 @@
 package jpabook.jpashop.service;
 
-import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.domain.member.Member;
 import jpabook.jpashop.repository.MemberRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +27,8 @@ public class MemberServiceTest {
         //given 이런게 주어졌어
         Member member = new Member();
         member.setName("myeongdayeon");
-        member.setPassword("yesyes");
-        member.setUsername("myeong");
+        member.setPassword("welcome1");
+        member.setUsername("dayeon");
         member.setEmail("meme91322367@gmail.com");
 
         //when 이걸 실행하면
@@ -41,6 +40,19 @@ public class MemberServiceTest {
 
     @Test
     public void 로그인() throws Exception {
+        //given
+        Member member = new Member();
+        member.setName("myeongdayeon");
+        member.setPassword("welcome1");
+        member.setUsername("dayeon");
+        member.setEmail("meme91322367@gmail.com");
+        Long saveId = memberService.join(member);
+
+        //when
+        Member loginMember = memberService.login("dayeon","welcome1");
+
+        //then
+        assertEquals(saveId,loginMember.getId());
 
     }
 

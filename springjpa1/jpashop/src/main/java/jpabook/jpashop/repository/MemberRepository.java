@@ -1,11 +1,10 @@
 package jpabook.jpashop.repository;
 
-import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository //entity 찾아줌, componentscan의 대상이 되는 annotation 중 하나
@@ -43,11 +42,10 @@ public class MemberRepository {
     }
 
     public Member findByUsername(String username) {
-//        return em.createQuery(
             return em.createQuery("select m from Member m where m.username = :username",Member.class)
                     .setParameter("username",username)
                     .getSingleResult();
-        //return em.find(Member.class,username);
+
     }
 
 }
