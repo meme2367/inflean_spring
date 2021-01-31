@@ -7,7 +7,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("B")//싱글테이블 구분 위해서
+@DiscriminatorValue("B")
 @Getter @Setter
 public class Book extends Item {
     private String author;

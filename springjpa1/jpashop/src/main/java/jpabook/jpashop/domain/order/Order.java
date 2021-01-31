@@ -1,8 +1,11 @@
 package jpabook.jpashop.domain.order;
 
 import jpabook.jpashop.domain.delivery.Delivery;
+import jpabook.jpashop.domain.delivery.DeliveryStatus;
 import jpabook.jpashop.domain.member.Member;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -16,13 +19,13 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Table(name = "orders")
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
     @Id @GeneratedValue
     @Column(name="order_id")
     private Long id;
 
-    //Order - Member에서 연관관계의 주인
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="member_id")
     private Member member;
@@ -30,18 +33,16 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    //delivery - order 일대일 관계 : 둘 다 주인이 될 수 있다. -> 외래키랑 가까운 테이블로.
     @OneToOne(fetch = LAZY , cascade = ALL)
     @JoinColumn(name="delivery_id")
     private Delivery delivery;
 
-    //시간분까지
-    private LocalDateTime orderDate; //주문 시간
+    private LocalDateTime orderDate;
 
-    @Enumerated(EnumType.STRING)//enumtype : ORDINAL은 숫자로 들어감
-    private OrderStatus status; // 주문 상태(Order, Cancel)
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
-    //연관관계 편의 메서드
+
     public void setMember(Member member) {
         this.member = member;
         member.getOrders().add(this);
@@ -55,5 +56,45 @@ public class Order {
     public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
         delivery.setOrder(this);
+    }
+
+    //==생성 메서드==//
+    public static Order createOrder(Member member, Delivery delivery,
+                                    OrderItem... orderItems) {
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        for ( OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+        order.setStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+        return order;
+    }
+
+
+    /**
+     * 주문 취소
+     */
+    public void cancle() {
+        if (delivery.getStatus() == DeliveryStatus.COMP) {
+            throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
+        }
+        this.setStatus(OrderStatus.CANCEL);
+
+        for (OrderItem orderItem : orderItems) {
+            orderItem.cancle();
+        }
+    }
+
+    /**
+     * 전체 주문 가격 조회
+     */
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for (OrderItem orderItem : orderItems) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return totalPrice;
     }
 }

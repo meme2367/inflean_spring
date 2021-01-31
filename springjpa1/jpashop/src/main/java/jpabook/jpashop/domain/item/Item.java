@@ -1,6 +1,8 @@
 package jpabook.jpashop.domain.item;
 
 import jpabook.jpashop.domain.Category;
+import jpabook.jpashop.domain.CategoryItem;
+import jpabook.jpashop.domain.order.OrderItem;
 import jpabook.jpashop.exception.NotEnoughStockException;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,10 +11,12 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
+
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)//상속관계 매핑
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="dtype")
-@Getter
+@Getter @Setter
 public abstract class Item {
 
     @Id
@@ -26,11 +30,10 @@ public abstract class Item {
 
     private int stockQuantity;
 
-    @ManyToMany(mappedBy = "items")
-    private List<Category> categories = new ArrayList<>();
+    @OneToMany(mappedBy = "item")
+    private List<CategoryItem> categoryItems = new ArrayList<>();
 
-    //비즈니스 로직 (재고 늘리고 줄이기)
-    //도메인 주도 개발 : 엔티티 자체가 해결할 수 있는 것은 엔티티안에 넣어서 응집력높이(stockQuantity)
+
     public void addStock(int stockQuantity) {
         this.stockQuantity += stockQuantity;
     }
@@ -42,7 +45,5 @@ public abstract class Item {
         }
         this.stockQuantity = restStock;
     }
-
-
 
 }

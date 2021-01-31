@@ -23,6 +23,6 @@ public class Delivery {
     @Embedded
     private Address address;
 
-    @Enumerated(EnumType.STRING)//enumtype : ORDINAL은 숫자로 들어감
-    private DeliveryStatus status;//READY, COMP
+    @Enumerated(EnumType.STRING)
+    private DeliveryStatus status;
 }

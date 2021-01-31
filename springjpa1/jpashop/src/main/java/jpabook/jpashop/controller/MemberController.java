@@ -37,10 +37,10 @@ public class MemberController {
         Response response = new Response();
 
         try {
-            Member member = memberService.login(requestLoginUer.getUsername(),requestLoginUer.getPassword());
+            Long memberId = memberService.login(requestLoginUer.getUsername(),requestLoginUer.getPassword());
             response.setStatusCode(200);
             response.setMessage("로그인을 성공적으로 완료했습니다.");
-            response.setData(member);
+            response.setData(memberId);
         } catch (Exception e) {
             response.setStatusCode(400);
             response.setMessage("로그인을 하는 도중 오류가 발생했습니다.");

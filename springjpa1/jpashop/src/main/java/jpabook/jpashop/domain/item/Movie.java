@@ -10,7 +10,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
 @Entity
-@DiscriminatorValue("M")//싱글테이블 구분 위해서
+@DiscriminatorValue("M")
 @Getter @Setter
 public class Movie extends Item {
     private String director;

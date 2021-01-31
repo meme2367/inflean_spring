@@ -14,7 +14,7 @@ public interface MemberService {
 
     Long join(Member member);
 
-    Member login(String username, String password);
+    Long login(String username, String password);
 
     List<Member> findMembers();
 

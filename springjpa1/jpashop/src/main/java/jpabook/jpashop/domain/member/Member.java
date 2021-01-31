@@ -14,31 +14,34 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity //jpa가 관리할 객체
-@Getter //lombok
-@Setter //lombok
+@Entity
+@Getter
+@Setter
 public class Member {
 
     @Id
-    @GeneratedValue//자동생성
+    @GeneratedValue
     @Column(name="member_id")
     private Long id;
 
     @NotNull
+    @Column(unique = true)
     private String password;
 
     @Column(unique = true)
     private String username;
 
+    @Column(unique = true)
     private String name;
 
+    @Column(unique = true)
     private String email;
 
-    @Enumerated(EnumType.STRING)//enumtype : ORDINAL은 숫자로 들어감
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private MemberRole status = MemberRole.ROLE_NOT_PERMITTED;//READY, COMP
+    private MemberRole status = MemberRole.ROLE_NOT_PERMITTED;
 
-    @Embedded//내장타입
+    @Embedded
     private Address address;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -53,8 +56,7 @@ public class Member {
     @UpdateTimestamp
     private Date updateAt;
 
-    //Order테이블에 있는 member 필드
-    //읽기전용
+
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
