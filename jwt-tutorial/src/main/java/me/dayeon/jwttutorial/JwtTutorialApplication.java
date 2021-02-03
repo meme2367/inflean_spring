@@ -1,14 +1,13 @@
-package jpabook.jpashop;
+package me.dayeon.jwttutorial;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JpashopApplication {
+public class JwtTutorialApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(JpashopApplication.class, args);
-
+		SpringApplication.run(JwtTutorialApplication.class, args);
 	}
 
-} 
+}
