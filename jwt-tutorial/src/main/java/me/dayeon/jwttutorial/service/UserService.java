@@ -12,9 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.Optional;
 
-/**
- *
- */
 @Service
 public class UserService {
     private final UserRepository userRepository;
