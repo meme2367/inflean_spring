@@ -8,6 +8,8 @@ import com.dayeon.board.jwt.JwtTokenProvider;
 import com.dayeon.board.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,4 +60,5 @@ public class MemberController {
             return new Response("error", "로그인에 실패했습니다.", e.getMessage());
         }
     }
+
 }

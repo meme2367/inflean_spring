@@ -8,13 +8,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.userdetails.User;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService{
 
     @Autowired
     private MemberRepository memberRepository;
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -25,9 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService{
             throw new UsernameNotFoundException(username + " : 사용자 존재하지 않음");
         }
 
-        return new org.springframework.security.core.userdetails.User(
-                member.getUsername()
-                ,member.getPassword()
-                , AuthorityUtils.createAuthorityList(member.getRole().toString()));
+        return new User(member.getUsername(),member.getPassword()
+                ,AuthorityUtils.createAuthorityList(member.getRole().toString()));
     }
 }
