@@ -1,4 +1,4 @@
-package jpabook.jpashop.service.utils;
+package jpabook.jpashop.utils;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;

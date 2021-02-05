@@ -5,7 +5,7 @@ import jpabook.jpashop.domain.Salt;
 import jpabook.jpashop.domain.member.Member;
 import jpabook.jpashop.repository.MemberRepository;
 import jpabook.jpashop.service.MemberService;
-import jpabook.jpashop.service.utils.SaltUtil;
+import jpabook.jpashop.utils.SaltUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
