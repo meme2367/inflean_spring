@@ -17,7 +17,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    public final static long TOKEN_VALIDATION_SECOND = 10L;//10초예시
+    public final static long TOKEN_VALIDATION_SECOND = 10L;//재발급때문에 잠깐 10초
     public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 60 * 24 * 2;
 
     final static public String ACCESS_TOKEN_NAME = "accessToken";
@@ -44,7 +44,6 @@ public class JwtUtil {
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-
 
         logger.info("test extractAllClaims" + claims.toString());
 
