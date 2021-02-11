@@ -1,6 +1,4 @@
-package jpabook.jpashop.domain.member;
-import jpabook.jpashop.domain.Address;
-import jpabook.jpashop.domain.order.Order;
+package com.project.member.domain;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,9 +12,15 @@ public class Member {
     @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;
+
+    private String nickname;
+
     private String name;
-    @Embedded
-    private Address address;
-    @OneToMany(mappedBy = "member")
-    private List<Order> orders = new ArrayList<>();
+
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private MemberRole role;
+
+    private String email;
 }
