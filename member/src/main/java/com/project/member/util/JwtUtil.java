@@ -61,7 +61,6 @@ public class JwtUtil {
     public boolean validateToken(String token) {
         try {
             Claims claims = getClaimsFormToken(token);
-            logger.info("role : " + claims.get("role"));
             return true;
         } catch ( MalformedJwtException e) {
             logger.info("잘못된 JWT 서명입니다.");
@@ -98,15 +97,12 @@ public class JwtUtil {
     }
 
     public String doGenerateToken(Long memberId, String role, long expireTime) {
-
-        String jwt = Jwts.builder()
+        return Jwts.builder()
                 .setClaims(createClaims(memberId,role))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expireTime))
                 .signWith(SignatureAlgorithm.HS256, key)
                 .compact();
-
-        return jwt;
     }
 
     private Map<String,Object> createClaims(Long memberId, String role) {

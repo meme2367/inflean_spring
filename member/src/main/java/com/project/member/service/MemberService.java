@@ -26,8 +26,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    private final CookieUtil cookieUtil;
-
     private final JwtUtil jwtUtil;
 
     private final RedisUtil redisUtil;
@@ -86,7 +84,7 @@ public class MemberService {
     private Member validateExistMemberById(Long id) throws Exception {
         Member member = memberRepository.findOne(id);
 
-        if(member == null ) {
+        if (member == null ) {
             logger.info("user don't exist");
             throw new Exception("회원이 존재하지 않습니다.");
         } else if(member.getId() != id) {
@@ -99,7 +97,7 @@ public class MemberService {
     public String getNewToken(RequestTokenDTO requestTokenDTO) throws Exception {
 
 
-        if(!jwtUtil.isTokenExpired(requestTokenDTO.getAccessToken())) {
+        if (!jwtUtil.isTokenExpired(requestTokenDTO.getAccessToken())) {
             throw new Exception("만료되지 않은 accessToken입니다.");
         }
 
@@ -109,7 +107,7 @@ public class MemberService {
 
         Member member = validateExistMemberById(longMemberId);
 
-        if(jwtUtil.isTokenExpired(requestTokenDTO.getRefreshToken())) {
+        if (jwtUtil.isTokenExpired(requestTokenDTO.getRefreshToken())) {
             logger.info("refreshToken expired");
             throw new Exception("만료된 refreshToken입니다. 다시 로그인하세요.");
         }
@@ -117,7 +115,7 @@ public class MemberService {
 
         String redisRefreshToken = redisUtil.getData(Long.toString(member.getId()));
 
-        if(!requestTokenDTO.getRefreshToken().equals(redisRefreshToken)) {
+        if (!requestTokenDTO.getRefreshToken().equals(redisRefreshToken)) {
             logger.info("redis값과 일치하지 않습니다.");
             throw new Exception("유효하지않은 refreshToken입니다.");
         }

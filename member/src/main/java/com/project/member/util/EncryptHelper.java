@@ -4,5 +4,5 @@ public interface EncryptHelper {
 
     String encrypt(String password);
 
-    boolean isMatch(String password,String hashedPassword);
+    boolean isMatch(String password, String hashedPassword);
 }

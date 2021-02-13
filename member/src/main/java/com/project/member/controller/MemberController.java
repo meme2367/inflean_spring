@@ -76,7 +76,6 @@ public class MemberController {
     public ResponseDTO getNewToken(@RequestBody RequestTokenDTO requestTokenDTO) throws Exception {
         try {
             String newAccessToken = memberService.getNewToken(requestTokenDTO);
-
             return new ResponseDTO(200,"success",newAccessToken);
         } catch (Exception e) {
             return new ResponseDTO(500,"error",null);
