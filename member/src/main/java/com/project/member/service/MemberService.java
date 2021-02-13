@@ -59,7 +59,7 @@ public class MemberService {
 
     public Member login(String nickname, String password) throws Exception {
 
-        Member member = validateExistMember(nickname);
+        Member member = validateExistMemberByNickname(nickname);
 
         validateEncryptPassword(password,member.getPassword());
 
@@ -75,10 +75,23 @@ public class MemberService {
 
     }
 
-    private Member validateExistMember(String nickname) throws Exception {
+    private Member validateExistMemberByNickname(String nickname) throws Exception {
         Member member = memberRepository.findByNickname(nickname);
         if(member == null) {
             throw new Exception("회원이 존재하지 않습니다.");
+        }
+        return member;
+    }
+
+    private Member validateExistMemberById(Long id) throws Exception {
+        Member member = memberRepository.findOne(id);
+
+        if(member == null ) {
+            logger.info("user don't exist");
+            throw new Exception("회원이 존재하지 않습니다.");
+        } else if(member.getId() != id) {
+            logger.info("user don't match");
+            throw new Exception("디비에 있는 회원과 일치하지 않습니다.");
         }
         return member;
     }
@@ -87,39 +100,31 @@ public class MemberService {
 
 
         if(!jwtUtil.isTokenExpired(requestTokenDTO.getAccessToken())) {
-            logger.info("accesstoken NotExpired");
             throw new Exception("만료되지 않은 accessToken입니다.");
-        }//ok
-
-        logger.info("member jwt에서 id 검색전");
-        Long memberId = jwtUtil.getMemberId(requestTokenDTO.getAccessToken());//안됨
-        logger.info("member jwt에서 id 검색" + memberId);
-
-        Member member = memberRepository.findOne(memberId);
-        logger.info("member db 검색" + member.getId());
-
-        if(member == null) {
-            logger.info("user don't exist");
-            throw new Exception("회원이 존재하지 않습니다.");
         }
-        logger.info(jwtUtil.isTokenExpired(requestTokenDTO.getRefreshToken()) ? "리프레토큰만료" : "만료아님");
+
+        String memberId = jwtUtil.getMemberId(requestTokenDTO.getRefreshToken());
+
+        Long longMemberId = Long.parseLong(memberId);
+
+        Member member = validateExistMemberById(longMemberId);
 
         if(jwtUtil.isTokenExpired(requestTokenDTO.getRefreshToken())) {
             logger.info("refreshToken expired");
             throw new Exception("만료된 refreshToken입니다. 다시 로그인하세요.");
         }
 
+
         String redisRefreshToken = redisUtil.getData(Long.toString(member.getId()));
-        logger.info("redis 값 가져옴 : " + redisRefreshToken);
 
         if(!requestTokenDTO.getRefreshToken().equals(redisRefreshToken)) {
-            logger.info("redis값과 일치하지 않");
+            logger.info("redis값과 일치하지 않습니다.");
             throw new Exception("유효하지않은 refreshToken입니다.");
         }
 
         String newAccessToken = jwtUtil.generateToken(memberRepository.findOne(member.getId()));
-        logger.info("새 accessToken : " + newAccessToken);
 
         return newAccessToken;
     }
+
 }

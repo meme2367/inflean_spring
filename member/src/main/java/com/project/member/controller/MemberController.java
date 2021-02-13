@@ -74,9 +74,7 @@ public class MemberController {
 
     @GetMapping("/newToken")
     public ResponseDTO getNewToken(@RequestBody RequestTokenDTO requestTokenDTO) throws Exception {
-
         try {
-            logger.info("service로직 전");
             String newAccessToken = memberService.getNewToken(requestTokenDTO);
 
             return new ResponseDTO(200,"success",newAccessToken);

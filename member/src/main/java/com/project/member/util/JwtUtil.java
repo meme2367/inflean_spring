@@ -3,7 +3,6 @@ import com.project.member.domain.Member;
 import com.project.member.domain.MemberRole;
 import com.project.member.service.MemberService;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +10,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.crypto.spec.SecretKeySpec;
+import javax.validation.constraints.Null;
+import javax.xml.bind.DatatypeConverter;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 public class JwtUtil {
 
-    public final static long TOKEN_VALIDATION_SECOND = 10L;//재발급때문에 잠깐 10초
+    public final static long TOKEN_VALIDATION_SECOND = 1000L * 10;
     public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 60 * 24 * 2;
 
     final static public String ACCESS_TOKEN_NAME = "accessToken";
@@ -32,46 +37,33 @@ public class JwtUtil {
 
     @PostConstruct
     private void initKey() {
-        byte[] keyBytes = SECRET_KEY.getBytes(StandardCharsets.UTF_8);
-        this.key =  Keys.hmacShaKeyFor(keyBytes);
+        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
+        this.key =  new SecretKeySpec(apiKeySecretBytes,SignatureAlgorithm.HS256.getJcaName());
     }
 
-    public Claims extractAllClaims(String token) throws ExpiredJwtException {
-
-        Claims claims = Jwts
-                    .parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-
-        logger.info("test extractAllClaims" + claims.toString());
-
-        return claims;
-
+    private  Claims getClaimsFormToken(String token) {
+        return Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
+                .parseClaimsJws(token).getBody();
     }
+
 
     public String getMemberRole(String token) {
-        String role = extractAllClaims(token).get("role",String.class);//?
-        logger.info("jwt getMemberRole  : " + role);
-        return role;
+        Claims claims = getClaimsFormToken(token);
+        return (String) claims.get("role");
     }
 
-    public Long getMemberId(String token) {
-
-        Long memberId = extractAllClaims(token).get("memberId",Long.class);//?
-        logger.info("jwt getMemberId : " + memberId);
-        return memberId;
+    public String getMemberId(String token) {
+        Claims claims = getClaimsFormToken(token);
+        return (String) claims.get("memberId");
     }
+
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token);
+            Claims claims = getClaimsFormToken(token);
+            logger.info("role : " + claims.get("role"));
             return true;
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+        } catch ( MalformedJwtException e) {
             logger.info("잘못된 JWT 서명입니다.");
         } catch (ExpiredJwtException e) {
             logger.info("만료된 JWT 토큰입니다.");
@@ -79,6 +71,8 @@ public class JwtUtil {
             logger.info("지원되지 않는 JWT 토큰입니다.");
         } catch (IllegalArgumentException e) {
             logger.info("JWT 토큰이 잘못되었습니다.");
+        } catch (NullPointerException e) {
+            logger.info("JWT 토큰이 빈 값입니다.");
         }
         return false;
     }
@@ -86,10 +80,7 @@ public class JwtUtil {
     public Boolean isTokenExpired(String token) {
 
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token);
+            Claims claims = getClaimsFormToken(token);
             logger.info("만료되지 않은 JWT 토큰입니다.");
             return false;
         } catch (ExpiredJwtException e) {
@@ -108,20 +99,21 @@ public class JwtUtil {
 
     public String doGenerateToken(Long memberId, String role, long expireTime) {
 
-       Claims claims = Jwts.claims();
-        claims.put("role", role);
-        claims.put("memberId",memberId);
-
         String jwt = Jwts.builder()
-                .setClaims(claims)
+                .setClaims(createClaims(memberId,role))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expireTime))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .signWith(SignatureAlgorithm.HS256, key)
                 .compact();
 
-        //logger.info("test" + getMemberId(jwt));//?
-        //logger.info("test role" + getMemberRole(jwt));//?
         return jwt;
+    }
+
+    private Map<String,Object> createClaims(Long memberId, String role) {
+        Map<String,Object> claims = new HashMap<>();
+        claims.put("memberId",memberId.toString());
+        claims.put("role",role);
+        return claims;
     }
 
 }

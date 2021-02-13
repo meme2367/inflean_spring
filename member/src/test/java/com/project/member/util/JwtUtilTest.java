@@ -64,10 +64,12 @@ public class JwtUtilTest {
         String token = jwtUtil.doGenerateToken(1L,"USER",1000L * 60 * 24 * 2);
 
         //when
-        Long id = jwtUtil.getMemberId(token);
-
+        String role = jwtUtil.getMemberRole(token);
+        String memberId = jwtUtil.getMemberId(token);
         //then
-        assertEquals(id, java.util.Optional.of(1L).get());
+        assertEquals("USER",role);
+        assertEquals(Long.toString(1L),memberId);
+
     }
 
 }
