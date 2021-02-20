@@ -61,13 +61,13 @@ public class JwtUtilTest {
     public void 클레임검증() {
 
         //given
-        String token = jwtUtil.doGenerateToken(1L,"USER",1000L * 60 * 24 * 2);
+        String token = jwtUtil.doGenerateToken(1L,"ROLE_USER",1000L * 60 * 24 * 2);
 
         //when
         String role = jwtUtil.getMemberRole(token);
         String memberId = jwtUtil.getMemberId(token);
         //then
-        assertEquals("USER",role);
+        assertEquals("ROLE_USER",role);
         assertEquals(Long.toString(1L),memberId);
 
     }
