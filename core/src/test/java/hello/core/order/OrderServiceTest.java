@@ -21,8 +21,16 @@ public class OrderServiceTest {
 
   @BeforeEach
   void before() {
-    memberService = new MemberServiceImpl(new MemoryMemberRepository());
-    orderService = new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy());
+    memberService = new MemberServiceImpl(memberRepository());
+    orderService = new OrderServiceImpl(memberRepository(), discountPolicy());
+  }
+
+  private DiscountPolicy discountPolicy() {
+    return new FixDiscountPolicy();
+  }
+
+  private MemberRepository memberRepository() {
+    return new MemoryMemberRepository();
   }
 
   @Test
