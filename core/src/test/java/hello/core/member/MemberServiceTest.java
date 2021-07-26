@@ -11,7 +11,7 @@ public class MemberServiceTest {
   @DisplayName("회원가입")
   void join() {
     //given
-    MemberService memberService = new MemberServiceImpl();
+    MemberService memberService = new MemberServiceImpl(new MemoryMemberRepository());
     Member member = new Member(1L, "memberA", Grade.VIP);
 
     //when
