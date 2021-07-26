@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
+import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Grade;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
@@ -26,7 +27,7 @@ public class OrderServiceTest {
   }
 
   private DiscountPolicy discountPolicy() {
-    return new FixDiscountPolicy();
+    return new RateDiscountPolicy();
   }
 
   private MemberRepository memberRepository() {
@@ -41,7 +42,7 @@ public class OrderServiceTest {
 
     Member member = new Member(memberId, "memberA", Grade.VIP);
     memberService.join(member);
-    Order itemA = orderService.createOrder(memberId, "itemA", 10000);
+    Order itemA = orderService.createOrder(memberId, "itemA", 20000);
 
     System.out.println(itemA);
     System.out.println(itemA.calculatePrice());
