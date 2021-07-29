@@ -32,7 +32,7 @@ public class ApplicationContextInfoTest {
   @Test
   @DisplayName("빈 조회")
   void findBeanByName() {
-    MemberService memberService = ac.getBean(MemberServiceImpl.class);
+    MemberService memberService = ac.getBean(MemberService.class);
     assertThat(memberService).isInstanceOf(MemberServiceImpl.class);
   }
 
