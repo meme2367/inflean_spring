@@ -9,12 +9,10 @@ public class CalcSumTest {
 
   @Test
   public void sumOfNumbers() throws IOException {
-
-
-    Calculator calculator = new Calculator();
+    FileReadTemplate fileReadTemplate = new FileReadTemplate();
+    Calculator calculator = new Calculator(fileReadTemplate);
     int sum = calculator.calcSum(getClass().getResource("/numbers.txt").getPath());
     assertThat(sum).isEqualTo(10);
-
   }
 
 
