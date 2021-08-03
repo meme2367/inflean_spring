@@ -28,9 +28,9 @@ public class UserDaoTest {
     DataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost:3306/springbook",
         "root", "welcome1", true);
     dao.setDataSource(dataSource);
-    user1 = new User("guu", "명다연1", "1234");
-    user2 = new User("nuu", "명다연2", "5678");
-    user3 = new User("buu", "명다연3", "0000");
+    user1 = new User("auu", "명다연1", "1234");
+    user2 = new User("buu", "명다연2", "5678");
+    user3 = new User("cuu", "명다연3", "0000");
   }
 
   @Test
@@ -88,6 +88,6 @@ public class UserDaoTest {
     dao.add(user3);
     List<User> users3 = dao.getAll();
     assertThat(users3.size()).isEqualTo(3);
-    assertThat(user3).isEqualTo(users3.get(2));
+    assertThat(user3).isEqualTo(users3.get(2));//알파벳순
   }
 }

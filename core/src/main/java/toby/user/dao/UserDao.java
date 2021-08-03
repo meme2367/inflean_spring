@@ -1,5 +1,6 @@
 package toby.user.dao;
 
+import com.mysql.cj.result.Row;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -24,14 +25,11 @@ public class UserDao {
   public User get(String id) throws SQLException {
     return this.jdbcTemplate.queryForObject("SELECT * FROM users WHERE id = ?",
         new Object[]{id},
-        new RowMapper<User>() {
-          @Override
-          public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-            User user = new User(rs.getString("id"),
-                rs.getString("name"),
-                rs.getString("password"));
-            return user;
-          }
+        (rs, rowNum) -> {
+          User user = new User(rs.getString("id"),
+              rs.getString("name"),
+              rs.getString("password"));
+          return user;
         }
     );
   }
@@ -51,5 +49,12 @@ public class UserDao {
 
 
   public List<User> getAll() {
+    return this.jdbcTemplate.query("SELECT * FROM users ORDER BY id",
+        (rs, rowNum) -> {
+          User user = new User(rs.getString("id"),
+              rs.getString("name"),
+              rs.getString("password"));
+          return user;
+        });
   }
 }
