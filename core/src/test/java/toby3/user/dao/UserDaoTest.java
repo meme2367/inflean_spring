@@ -24,8 +24,8 @@ public class UserDaoTest {
   @BeforeEach
   public void setUp() {
     dao = new UserDao();
-    DataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost/testdb",
-        "spring", "book", true);
+    DataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost:3306/springbook",
+        "root", "welcome1", true);
     dao.setDataSource(dataSource);
     user1 = new User("guu", "명다연1", "1234");
     user2 = new User("nuu", "명다연2", "5678");
@@ -63,7 +63,7 @@ public class UserDaoTest {
 
   @Test
   @DisplayName("유저 조회 실패")
-  public void getUserFailure() {
+  public void getUserFailure() throws SQLException {
     dao.deleteAll();
     assertThrows(EmptyResultDataAccessException.class, () ->
         dao.get("unkown_id"));
