@@ -75,6 +75,9 @@ public class UserDaoTest {
   public void getAll() throws SQLException {
     dao.deleteAll();
 
+    List<User> users0 = dao.getAll();
+    assertThat(users0.size()).isEqualTo(0);
+
     dao.add(user1);
     List<User> users1 =  dao.getAll();
     assertThat(users1.size()).isEqualTo(1);
@@ -88,6 +91,6 @@ public class UserDaoTest {
     dao.add(user3);
     List<User> users3 = dao.getAll();
     assertThat(users3.size()).isEqualTo(3);
-    assertThat(user3).isEqualTo(users3.get(2));//알파벳순
+    assertThat(user3).isEqualTo(users3.get(2));//알파벳
   }
 }

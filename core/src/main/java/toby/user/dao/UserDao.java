@@ -1,7 +1,5 @@
 package toby.user.dao;
 
-import com.mysql.cj.result.Row;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
@@ -12,6 +10,12 @@ import toby.user.domain.User;
 public class UserDao {
 
   private JdbcTemplate jdbcTemplate;
+  private RowMapper<User> userMapper = (rs, rowNum) -> {
+    User user = new User(rs.getString("id"),
+        rs.getString("name"),
+        rs.getString("password"));
+    return user;
+  };
 
   public void setDataSource(DataSource dataSource) {
     this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -24,14 +28,7 @@ public class UserDao {
 
   public User get(String id) throws SQLException {
     return this.jdbcTemplate.queryForObject("SELECT * FROM users WHERE id = ?",
-        new Object[]{id},
-        (rs, rowNum) -> {
-          User user = new User(rs.getString("id"),
-              rs.getString("name"),
-              rs.getString("password"));
-          return user;
-        }
-    );
+        new Object[]{id}, this.userMapper);
   }
 
 
@@ -49,12 +46,6 @@ public class UserDao {
 
 
   public List<User> getAll() {
-    return this.jdbcTemplate.query("SELECT * FROM users ORDER BY id",
-        (rs, rowNum) -> {
-          User user = new User(rs.getString("id"),
-              rs.getString("name"),
-              rs.getString("password"));
-          return user;
-        });
+    return this.jdbcTemplate.query("SELECT * FROM users ORDER BY id", this.userMapper);
   }
 }
