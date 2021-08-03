@@ -1,6 +1,6 @@
 package toby3.calculator;
 
-public interface LineCallBack {
+public interface LineCallBack<T> {
 
-  Integer doSomething(Integer val, String line);
+  T doSomething(T val, String line);
 }

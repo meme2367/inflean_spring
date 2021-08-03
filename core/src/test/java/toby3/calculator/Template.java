@@ -27,13 +27,13 @@ public class Template {
     }
   }
 
-  public Integer lineReadTemplate(int initValue, String path, LineCallBack lineCallBack)
+  public <T> T lineReadTemplate(T initValue, String path, LineCallBack<T> lineCallBack)
       throws IOException {
 
     BufferedReader br = null;
     try {
       br = new BufferedReader(new FileReader(path));
-      Integer val = initValue;
+      T val = initValue;
       String line = null;
       while ((line = br.readLine()) != null) {
         val = lineCallBack.doSomething(val, line);

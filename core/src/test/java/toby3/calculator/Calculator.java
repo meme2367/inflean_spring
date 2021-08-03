@@ -23,9 +23,10 @@ public class Calculator {
     return template.fildReadTemplate(path, bufferedReaderCallBack);
 
  */
-    LineCallBack lineCallBack = (val, line) -> {
+    LineCallBack<Integer> lineCallBack = (val, line) -> {
       return val + Integer.valueOf(line);
     };
+
     return template.lineReadTemplate(0, path, lineCallBack);
   }
 
@@ -42,9 +43,16 @@ public class Calculator {
     return template.fildReadTemplate(path, bufferedReaderCallBack);
      */
 
-    LineCallBack lineCallBack = (val, line) -> {
+    LineCallBack<Integer> lineCallBack = (val, line) -> {
       return val * Integer.valueOf(line);
     };
     return template.lineReadTemplate(1, path, lineCallBack);
+  }
+
+  public String concatenate(String path) throws IOException {
+    LineCallBack<String> lineCallBack = (val, line) -> {
+      return val + line;
+    };
+    return template.lineReadTemplate("", path, lineCallBack);
   }
 }

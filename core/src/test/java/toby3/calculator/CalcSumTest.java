@@ -28,4 +28,9 @@ public class CalcSumTest {
     int mul = calculator.calcMultiply(this.path);
     assertThat(mul).isEqualTo(24);
   }
+
+  @Test
+  public void concatenateStrings() throws IOException {
+    assertThat(calculator.concatenate(this.path)).isEqualTo("1234");
+  }
 }
