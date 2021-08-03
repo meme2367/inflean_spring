@@ -8,7 +8,7 @@ import toby3.user.dao.UserDao;
 
 @Configuration
 public class DaoFactory {
-  
+
   @Bean
   public DataSource dataSource() {
     SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
