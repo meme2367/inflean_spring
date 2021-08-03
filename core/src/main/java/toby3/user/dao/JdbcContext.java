@@ -3,7 +3,10 @@ package toby3.user.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import javax.sql.DataSource;
+import toby3.user.domain.User;
 import toby3.user.statementStrategy.StatementStrategy;
 
 public class JdbcContext {
@@ -40,4 +43,9 @@ public class JdbcContext {
       }
     }
   }
+
+  public void executeSql(final String query) throws SQLException {
+    workWithStatementStrategy(c -> c.prepareStatement(query));
+  }
+
 }
