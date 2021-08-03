@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.SQLException;
+import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -69,4 +70,24 @@ public class UserDaoTest {
         dao.get("unkown_id"));
   }
 
+  @Test
+  @DisplayName("모든 사용자 조회")
+  public void getAll() throws SQLException {
+    dao.deleteAll();
+
+    dao.add(user1);
+    List<User> users1 =  dao.getAll();
+    assertThat(users1.size()).isEqualTo(1);
+    assertThat(user1).isEqualTo(users1.get(0));
+
+    dao.add(user2);
+    List<User> users2 = dao.getAll();
+    assertThat(users2.size()).isEqualTo(2);
+    assertThat(user2).isEqualTo(users2.get(1));
+
+    dao.add(user3);
+    List<User> users3 = dao.getAll();
+    assertThat(users3.size()).isEqualTo(3);
+    assertThat(user3).isEqualTo(users3.get(2));
+  }
 }
