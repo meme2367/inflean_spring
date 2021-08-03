@@ -56,7 +56,7 @@ public class UserDao {
 
 
   public void deleteAll() throws SQLException {
-    this.jdbcContext.workWithStatementStrategy(c -> c.prepareStatement("DELETE FROM users"));
+    executeSql("DELETE FROM users");
   }
 
   public int getCount() throws SQLException {
@@ -74,6 +74,10 @@ public class UserDao {
 
     return cnt;
 
+  }
+
+  private void executeSql(final String query) throws SQLException {
+    this.jdbcContext.workWithStatementStrategy(c -> c.prepareStatement(query));
   }
 
 }
