@@ -1,4 +1,4 @@
-package toby3.user.domain;
+package toby.user.domain;
 
 import java.util.Objects;
 

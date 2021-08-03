@@ -1,11 +1,10 @@
-package toby3.user.objectFactory;
+package toby.user.objectFactory;
 
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
-import toby3.user.dao.JdbcContext;
-import toby3.user.dao.UserDao;
+import toby.user.dao.UserDao;
 
 @Configuration
 public class DaoFactory {

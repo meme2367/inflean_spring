@@ -1,4 +1,4 @@
-package toby3.calculator;
+package toby.calculator;
 
 public interface LineCallBack<T> {
 

@@ -1,4 +1,4 @@
-package toby3.user.dao;
+package toby.user.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
-import toby3.user.domain.User;
+import toby.user.domain.User;
 
 
 public class UserDaoTest {

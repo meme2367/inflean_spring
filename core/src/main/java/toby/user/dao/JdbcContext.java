@@ -1,13 +1,10 @@
-package toby3.user.dao;
+package toby.user.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 import javax.sql.DataSource;
-import toby3.user.domain.User;
-import toby3.user.statementStrategy.StatementStrategy;
+import toby.user.statementStrategy.StatementStrategy;
 
 public class JdbcContext {
 

@@ -1,4 +1,4 @@
-package toby3.calculator;
+package toby.calculator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

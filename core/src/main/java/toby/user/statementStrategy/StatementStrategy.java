@@ -1,4 +1,4 @@
-package toby3.user.statementStrategy;
+package toby.user.statementStrategy;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
