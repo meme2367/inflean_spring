@@ -13,7 +13,7 @@ public class CalcSumTest {
 
   @BeforeEach
   public void setUp() {
-    this.calculator = new Calculator(new FileReadTemplate());
+    this.calculator = new Calculator(new Template());
     this.path = getClass().getResource("/numbers.txt").getPath();
   }
 
@@ -28,6 +28,4 @@ public class CalcSumTest {
     int mul = calculator.calcMultiply(this.path);
     assertThat(mul).isEqualTo(24);
   }
-
-
 }

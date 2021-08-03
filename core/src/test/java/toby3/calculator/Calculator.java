@@ -4,14 +4,14 @@ import java.io.IOException;
 
 public class Calculator {
 
-  FileReadTemplate fileReadTemplate;
+  Template template;
 
-  public Calculator(FileReadTemplate fileReadTemplate) {
-    this.fileReadTemplate = fileReadTemplate;
+  public Calculator(Template template) {
+    this.template = template;
   }
 
   public int calcSum(String path) throws IOException {
-
+/*
     BufferedReaderCallBack bufferedReaderCallBack = (br) -> {
       Integer sum = 0;
       String line = null;
@@ -20,11 +20,17 @@ public class Calculator {
       }
       return sum;
     };
+    return template.fildReadTemplate(path, bufferedReaderCallBack);
 
-    return fileReadTemplate.fildReadTemplate(path, bufferedReaderCallBack);
+ */
+    LineCallBack lineCallBack = (val, line) -> {
+      return val + Integer.valueOf(line);
+    };
+    return template.lineReadTemplate(0, path, lineCallBack);
   }
 
   public int calcMultiply(String path) throws IOException {
+    /*
     BufferedReaderCallBack bufferedReaderCallBack = (br) -> {
       Integer mul = 1;
       String line = null;
@@ -33,6 +39,12 @@ public class Calculator {
       }
       return mul;
     };
-    return fileReadTemplate.fildReadTemplate(path, bufferedReaderCallBack);
+    return template.fildReadTemplate(path, bufferedReaderCallBack);
+     */
+
+    LineCallBack lineCallBack = (val, line) -> {
+      return val * Integer.valueOf(line);
+    };
+    return template.lineReadTemplate(1, path, lineCallBack);
   }
 }
