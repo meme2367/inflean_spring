@@ -3,6 +3,7 @@ package hello.core.beanfind;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import hello.core.AppConfig;
 import hello.core.member.MemberService;
 import hello.core.member.MemberServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
-@SpringBootTest
+@SpringBootTest(classes = AppConfig.class)
 public class ApplicationContextInfoTest {
 
   @Autowired

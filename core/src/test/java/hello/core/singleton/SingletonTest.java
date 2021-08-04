@@ -3,6 +3,7 @@ package hello.core.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import hello.core.AppConfig;
+import hello.core.member.MemberRepository;
 import hello.core.member.MemberService;
 import hello.core.member.MemberServiceImpl;
 import hello.core.member.MemoryMemberRepository;
@@ -13,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-@SpringBootTest
+@SpringBootTest(classes = AppConfig.class)
 public class SingletonTest {
 
   @Autowired
@@ -51,7 +52,7 @@ public class SingletonTest {
   @DisplayName("스프링 컨테이너와 싱글톤")
   void springContainer() {
 
-
+    //ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
     MemberService memberService1 = ac.getBean("memberService", MemberService.class);
     MemberService memberService2 = ac.getBean("memberService", MemberService.class);
 
