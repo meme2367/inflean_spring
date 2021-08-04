@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(exclude = AppConfig.class)
+@SpringBootApplication
 public class CoreApplication {
 
 	public static void main(String[] args) {
