@@ -7,32 +7,19 @@ import hello.core.discount.FixDiscountPolicy;
 import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Grade;
 import hello.core.member.Member;
-import hello.core.member.MemberRepository;
 import hello.core.member.MemberService;
-import hello.core.member.MemberServiceImpl;
-import hello.core.member.MemoryMemberRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 public class OrderServiceTest {
 
+  @Autowired
   MemberService memberService;
+  @Autowired
   OrderService orderService;
-
-  @BeforeEach
-  void before() {
-    memberService = new MemberServiceImpl(memberRepository());
-    orderService = new OrderServiceImpl(memberRepository(), discountPolicy());
-  }
-
-  private DiscountPolicy discountPolicy() {
-    return new RateDiscountPolicy();
-  }
-
-  private MemberRepository memberRepository() {
-    return new MemoryMemberRepository();
-  }
 
   @Test
   @DisplayName("주문하기")
