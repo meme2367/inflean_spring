@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'com.android.support:support-annotations:28.0.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'org.springframework', name: 'spring-jdbc', version: '5.3.9'
 	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.25'
