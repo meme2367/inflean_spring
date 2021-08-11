@@ -1,4 +1,4 @@
-package service;
+package jpabook.jpashop.service;
 
 import java.util.List;
 import jpabook.jpashop.domain.Member;
@@ -34,6 +34,6 @@ public class MemberService {
   }
 
   public Member findOne(Long memberId) {
-    return memberRepository.find(memberId);
+    return memberRepository.findOne(memberId);
   }
 }
