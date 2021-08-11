@@ -20,10 +20,10 @@ class MemberRepositoryTest {
   @Rollback(false)
   void save() {
     Member member = new Member();
-    member.setUsername("memberA");
+    member.setName("memberA");
 
-    Long savedId = memberRepository.save(member);
-    Member findMember = memberRepository.find(savedId);
+    memberRepository.save(member);
+    Member findMember = memberRepository.find(member.getId());
 
     assertThat(findMember).isEqualTo(member);
 
