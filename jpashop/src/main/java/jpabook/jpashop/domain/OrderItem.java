@@ -8,11 +8,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import jpabook.jpashop.domain.item.Item;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
 
   @Id
@@ -32,4 +36,21 @@ public class OrderItem {
 
   private int count;
 
+  public static OrderItem createOrderItem(Item item, int price, int cnt) {
+    OrderItem orderItem = new OrderItem();
+    orderItem.setItem(item);
+    orderItem.setOrderPrice(price);
+    orderItem.setCount(cnt);
+
+    item.removeStock(cnt);
+    return orderItem;
+  }
+
+  public void cancel() {
+    getItem().addStock(count);
+  }
+
+  public int getTotalPrice() {
+    return getOrderPrice() * getCount();
+  }
 }

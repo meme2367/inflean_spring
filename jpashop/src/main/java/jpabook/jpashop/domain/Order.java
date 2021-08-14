@@ -2,6 +2,7 @@ package jpabook.jpashop.domain;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,12 +17,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "orders")
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
   @Id @GeneratedValue
@@ -60,4 +64,32 @@ public class Order {
     delivery.setOrder(this);
   }
 
+  public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
+
+    Order order = new Order();
+    order.setMember(member);
+    order.setDelivery(delivery);
+    order.setOrderDate(LocalDateTime.now());
+    order.setStatus(OrderStatus.ORDER);
+    Arrays.stream(orderItems)
+        .forEach(orderItem -> {order.addOrderItem(orderItem);});
+    return order;
+  }
+
+  public void cancel() {
+    if (delivery.getStatus() == DeliveryStatus.COMP) {
+      throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
+    }
+
+    this.setStatus(OrderStatus.CANCEL);
+    for (OrderItem orderItem : orderItems) {
+      orderItem.cancel();
+    }
+  }
+
+  public int getTotalPrice() {
+    return orderItems.stream()
+        .mapToInt(OrderItem::getTotalPrice)
+        .sum();
+  }
 }
