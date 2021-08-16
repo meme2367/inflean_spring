@@ -15,9 +15,10 @@ public class JpaMain {
 
     Member member = new Member();
     member.setId(1L);
-    member.setName("helloA");
 
     em.persist(member);
+
+    em.find(Member.class, 1L);
 
     tx.commit();
     em.close();
