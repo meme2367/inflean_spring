@@ -40,13 +40,10 @@ public class MemberTest {
 
     Member member = new Member();
     member.setId(13L);
-
     //1차캐시에 저장
     em.persist(member);
-
     //1차캐시에서 찾음
     em.find(Member.class, 13L);
-
     //DB에 올라감
     tx.commit();
   }
