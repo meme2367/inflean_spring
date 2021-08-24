@@ -40,16 +40,12 @@ public class MemberTest {
 
     Member member = new Member();
     member.setId(13L);
-
     //1차캐시에 저장
     em.persist(member);
-
     //1차캐시에서 찾음
     em.find(Member.class, 13L);
-
     //DB에 올라감
     tx.commit();
-
   }
 
   @Test
@@ -72,7 +68,6 @@ public class MemberTest {
     System.out.println("=================");
     em.persist(member1);
     em.persist(member2);
-
     tx.commit();
   }
 
@@ -85,7 +80,6 @@ public class MemberTest {
     em.persist(member1);//1차 캐시에 올라감
 
     em.flush();//플러시 날림 : 트랜잭션 커밋되기 전에 DB에 반영
-
     System.out.println("=================");
     tx.commit();
   }
