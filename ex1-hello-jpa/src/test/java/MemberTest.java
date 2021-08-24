@@ -49,7 +49,6 @@ public class MemberTest {
 
     //DB에 올라감
     tx.commit();
-
   }
 
   @Test
@@ -72,7 +71,6 @@ public class MemberTest {
     System.out.println("=================");
     em.persist(member1);
     em.persist(member2);
-
     tx.commit();
   }
 
@@ -85,7 +83,6 @@ public class MemberTest {
     em.persist(member1);//1차 캐시에 올라감
 
     em.flush();//플러시 날림 : 트랜잭션 커밋되기 전에 DB에 반영
-
     System.out.println("=================");
     tx.commit();
   }
