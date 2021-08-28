@@ -91,6 +91,6 @@ public class UserDaoTest {
     dao.add(user3);
     List<User> users3 = dao.getAll();
     assertThat(users3.size()).isEqualTo(3);
-    assertThat(user3).isEqualTo(users3.get(2));//알파벳
+    assertThat(user3).isEqualTo(users3.get(2));
   }
 }
